@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Quran Verse</title>
+    <link href="https://fonts.googleapis.com/css2?family=Ysabeau+SC:wght@400;700&family=Amiri&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+    font-family: 'Indopak Nastaleeq';
+    src: url('fonts/indopak font.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Lilita One';
+    src: url('fonts/lilita one.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.daily-dhikr-title {
+    font-family: 'Lilita One', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-align: center;
+    margin-top: 20px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    letter-spacing: 3px;
+    position: absolute;  /* Make sure it stays above the video */
+    top: 20px;  /* Adjust vertical position */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;  /* Ensure the title is above the video */
+}
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .container {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .background-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        
+        .background-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.7);
+        }
+        
+        .content {
+            text-align: center;
+            padding: 20px;
+            width: 90%;
+            max-width: 600px;
+            z-index: 1;
+            position: relative;
+        }
+        
+        .surah-title {
+            font-family: 'Ysabeau SC', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            letter-spacing: 2px;
+        }
+        
+        .verse-reference {
+            font-family: 'Ysabeau SC', serif;
+            font-size: 1.1rem;
+            color: #f0f0f0;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .arabic-text {
+            font-family: 'Indopak Nastaleeq', serif;
+            font-size: 2.5rem;
+            line-height: 1.8;
+            text-align: center;
+            direction: rtl;
+            margin-bottom: 30px;
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            padding: 0 10px;
+        }
+        
+        .translation {
+            font-family: 'Ysabeau SC', serif;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .audio-controls {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .play-button {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .play-button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .play-icon {
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-left: 18px solid #ffffff;
+            border-bottom: 10px solid transparent;
+            margin-left: 4px;
+        }
+        
+        .pause-icon {
+            width: 16px;
+            height: 16px;
+            background-color: white;
+        }
+        
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .volume-slider {
+            width: 60px;
+            -webkit-appearance: none;
+            height: 4px;
+            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.3);
+            outline: none;
+            opacity: 0.7;
+            transition: opacity .2s;
+        }
+        
+        .volume-slider:hover {
+            opacity: 1;
+        }
+        
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ffffff;
+            cursor: pointer;
+        }
+        
+        .volume-slider::-moz-range-thumb {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ffffff;
+            cursor: pointer;
+        }
+        
+        .progress-bar {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 160px;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            width: 0%;
+            background-color: rgba(255, 255, 255, 0.7);
+            transition: width 0.1s linear;
+        }
+        
+        @media (max-width: 600px) {
+            .surah-title {
+                font-size: 1.8rem;
+            }
+            
+            .verse-reference {
+                font-size: 1rem;
+            }
+            
+            .arabic-text {
+                font-size: 2rem;
+            }
+            
+            .translation {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1 class="daily-dhikr-title">DAILY DHIKR AYAH</h1>
+
+    <div class="container">
+        <div class="background-container">
+            <video id="backgroundVideo" class="background-video" loop={true} muted={true} autoplay={true} playsinline={true}>
+                <source id="videoSource" src="videos/daily-background.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        
+        <div class="content">
+            <h1 class="surah-title" id="surahTitle">SURAH LUQMAN</h1>
+            <div class="verse-reference" id="verseReference">VERSE 6<br>QURAN (31:6)</div>
+            
+            <div class="arabic-text" id="arabicText">
+                وَمِنَ ٱلنَّاسِ مَن يَشْتَرِى لَهْوَ ٱلْحَدِيثِ لِيُضِلَّ عَن سَبِيلِ ٱللَّهِ بِغَيْرِ عِلْمٍۢ وَيَتَّخِذَهَا هُزُوًا ۚ أُو۟لَـٰٓئِكَ لَهُمْ عَذَابٌۭ مُّهِينٌۭ
+            </div>
+            
+            <div class="translation" id="translation">
+                But there are some who employ theatrics, only to lead others away from Allah’s Way—without any knowledge—and to make a mockery of it. They will suffer a humiliating punishment.
+            </div>
+        </div>
+        
+        <div class="audio-controls">
+            <div class="play-button" id="playButton">
+                <div class="play-icon"></div>
+            </div>
+            <div class="volume-control">
+                <input type="range" min="0" max="1" step="0.1" value="0.7" class="volume-slider" id="volumeSlider">
+            </div>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress" id="progressBar"></div>
+        </div>
+            
+        <audio id="verseAudio">
+            <source id="audioSource" src="audio/daily-verse.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+    <script>
+        // Verses database - you can update this manually or load from a JSON file
+        const verses = [
+            {
+                date: "2025-03-29", // Today's date
+                surah: "SURAH LUQMAN",
+                verseNumber: "6",
+                reference: "QURAN (31:6)",
+                arabic: "وَمِنَ ٱلنَّاسِ مَن يَشْتَرِى لَهْوَ ٱلْحَدِيثِ لِيُضِلَّ عَن سَبِيلِ ٱللَّهِ بِغَيْرِ عِلْمٍۢ وَيَتَّخِذَهَا هُزُوًا ۚ أُو۟لَـٰٓئِكَ لَهُمْ عَذَابٌۭ مُّهِينٌۭ",
+                translation: "But there are some who employ theatrics, only to lead others away from Allah’s Way—without any knowledge—and to make a mockery of it. They will suffer a humiliating punishment.",
+                video: "videos/background1.mp4",
+                audio: "audio/daily-verse.mp3"
+            },
+            {
+                date: "2025-03-30", // Tomorrow's date
+                surah: "SURAH AL-IMRAN",
+                verseNumber: "103",
+                reference: "QURAN (3:103)",
+                arabic: "وَاعْتَصِمُوا بِحَبْلِ اللَّهِ جَمِيعًا وَلَا تَفَرَّقُوا",
+                translation: "And hold firmly to the rope of Allah all together and do not become divided.",
+                video: "videos/background2.mp4",
+                audio: "audio/verse2.mp3"
+            }
+            // Add more verses for different dates
+        ];
+        
+        // Audio player functionality
+        const playButton = document.getElementById('playButton');
+        const audio = document.getElementById('verseAudio');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const progressBar = document.getElementById('progressBar');
+        
+        // Elements for updating content
+        const surahTitle = document.getElementById('surahTitle');
+        const verseReference = document.getElementById('verseReference');
+        const arabicText = document.getElementById('arabicText');
+        const translation = document.getElementById('translation');
+        const videoSource = document.getElementById('videoSource');
+        const backgroundVideo = document.getElementById('backgroundVideo');
+        const audioSource = document.getElementById('audioSource');
+        
+        // Set initial volume
+        audio.volume = volumeSlider.value;
+        
+        // Function to get today's verse
+        function getTodayVerse() {
+            const today = new Date();
+            const dateString = today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+            
+            // Find verse for today or default to first verse
+            const todayVerse = verses.find(verse => verse.date === dateString) || verses[0];
+            return todayVerse;
+        }
+        
+        // Function to update content
+        function updateContent(verse) {
+            surahTitle.textContent = verse.surah;
+            verseReference.innerHTML = `VERSE ${verse.verseNumber}<br>${verse.reference}`;
+            arabicText.textContent = verse.arabic;
+            translation.textContent = verse.translation;
+            
+            // Update video source
+            videoSource.src = verse.video;
+            backgroundVideo.load(); // Reload video with new source
+            
+            // Update audio source
+            audioSource.src = verse.audio;
+            audio.load(); // Reload audio with new source
+        }
+        
+        // Initialize with today's verse
+        updateContent(getTodayVerse());
+        
+        // Play/pause button functionality
+        playButton.addEventListener('click', function() {
+            if (audio.paused) {
+                audio.play().then(() => {
+                    playButton.innerHTML = '<div class="pause-icon"></div>';
+                }).catch(error => {
+                    console.error("Audio playback error:", error);
+                    alert("Could not play audio. Please check your audio file.");
+                });
+            } else {
+                audio.pause();
+                playButton.innerHTML = '<div class="play-icon"></div>';
+            }
+        });
+        
+        // Volume control
+        volumeSlider.addEventListener('input', function() {
+            audio.volume = this.value;
+        });
+        
+        // Progress bar updates
+        audio.addEventListener('timeupdate', function() {
+            const progress = (audio.currentTime / audio.duration) * 100;
+            progressBar.style.width = progress + '%';
+        });
+        
+        // Reset play button when audio ends
+        audio.addEventListener('ended', function() {
+            playButton.innerHTML = '<div class="play-icon"></div>';
+            progressBar.style.width = '0%';
+        });
+    </script>
+</body>
+</html>
