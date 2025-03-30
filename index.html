@@ -271,7 +271,7 @@
                 audio: "audio/daily-verse.mp3"
             },
             {
-                date: "2025-03-29", // Tommorrow's date
+                date: "2025-03-29", // Today's date
                 surah: "SURAH LUQMAN",
                 verseNumber: "6",
                 reference: "QURAN (31:6)",
@@ -345,10 +345,15 @@
             }
         });
         
-        // Volume control
-        volumeSlider.addEventListener('input', function() {
-            audio.volume = this.value;
-        });
+// Volume control
+volumeSlider.addEventListener('input', function() {
+    audio.volume = this.value;
+});
+
+// Optional: Add a change event to handle mobile touch better
+volumeSlider.addEventListener('change', function() {
+    audio.volume = this.value;
+});
         
         // Progress bar updates
         audio.addEventListener('timeupdate', function() {
