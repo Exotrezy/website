@@ -11,29 +11,7 @@
     src: url('fonts/indopak font.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
-}
-@font-face {
-    font-family: 'Lilita One';
-    src: url('fonts/lilita one.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-}
-
-.daily-dhikr-title {
-    font-family: 'Lilita One', serif;
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #ffffff;
-    text-align: center;
-    margin-top: 20px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-    letter-spacing: 3px;
-    position: absolute;  /* Make sure it stays above the video */
-    top: 20px;  /* Adjust vertical position */
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1;  /* Ensure the title is above the video */
-}
+     
         body {
             font-family: 'Arial', sans-serif;
             margin: 0;
@@ -238,8 +216,6 @@
     </style>
 </head>
 <body>
-    <h1 class="daily-dhikr-title">DAILY DHIKR AYAH</h1>
-
     <div class="container">
         <div class="background-container">
             <video id="backgroundVideo" class="background-video" loop={true} muted={true} autoplay={true} playsinline={true}>
