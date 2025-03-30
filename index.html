@@ -196,7 +196,11 @@
             background-color: rgba(255, 255, 255, 0.7);
             transition: width 0.1s linear;
         }
-        
+        @media (max-width: 600px) {
+    .volume-control {
+        display: none;
+    }
+}
         @media (max-width: 600px) {
             .surah-title {
                 font-size: 1.8rem;
@@ -345,16 +349,11 @@
             }
         });
         
-// Volume control
-volumeSlider.addEventListener('input', function() {
-    audio.volume = this.value;
-});
+        // Volume control
+        volumeSlider.addEventListener('input', function() {
+            audio.volume = this.value;
+        });
 
-// Optional: Add a change event to handle mobile touch better
-volumeSlider.addEventListener('change', function() {
-    audio.volume = this.value;
-});
-        
         // Progress bar updates
         audio.addEventListener('timeupdate', function() {
             const progress = (audio.currentTime / audio.duration) * 100;
